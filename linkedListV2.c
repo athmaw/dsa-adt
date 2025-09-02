@@ -35,6 +35,9 @@ int main() {
     insertLast(list, 7);
     display(list);
 
+    insertPos(list, 7, 2);
+    display(list);
+
     return 0;
 }
 
@@ -100,6 +103,32 @@ void insertLast(List *list, int data) {
 
 void insertPos(List *list, int data, int Ndx) {
     
+    if(Ndx > list->count || Ndx < 0) {
+        printf("Invalid.\n");
+    }
+
+    if(Ndx == 0) {
+        insertFirst(list, data);
+    } else if(Ndx == list->count) {
+        insertLast(list, data);
+    } else{
+        Node *newNode = (Node*)malloc(sizeof(Node));
+
+        if(newNode == NULL) return;
+
+        newNode->data = data;
+
+        Node* curr = list->head;
+        int i;
+
+        for(i = 0; i < Ndx; i++) {
+            curr = curr->next;
+        }
+
+        newNode->next = curr->next;
+        curr->next = newNode;
+        list->count++;
+    }
 }
 
 void display(List *list) {
