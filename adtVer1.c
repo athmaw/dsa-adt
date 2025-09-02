@@ -57,13 +57,15 @@ List initList(List L) {
 List insertPos(List L, int data, int pos) {
     int i;
 
-    if (pos <= L.count && L.count < MAX) {
-        for (i = L.count; i > pos; i--) {
+    if(pos <= L.count && L.count < MAX) {
+        for(i = L.count; i > pos; i--) {
             L.elem[i] = L.elem[i - 1];
         }
+
         L.elem[pos] = data;
         L.count++;
     }
+
     return L;
 }
 
@@ -76,6 +78,7 @@ List deletePos(List L, int pos) {
         }
         L.count--;
     }
+
     return L;
 }
 
@@ -87,6 +90,7 @@ int locate(List L, int data) {
             return i;
         }
     }
+
     return -1;
 }
 
@@ -120,5 +124,6 @@ void display(List L) {
     for(i = 0; i < L.count; i++) {
         printf("%d ", L.elem[i]);
     }
+    
     printf("\n");
 }
