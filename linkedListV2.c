@@ -38,6 +38,15 @@ int main() {
     insertPos(list, 7, 2);
     display(list);
 
+    deleteStart(list);
+    display(list);
+
+    deleteLast(list);
+    display(list);
+
+    deletePos(list, 1);
+    display(list);
+
     return 0;
 }
 
@@ -104,7 +113,7 @@ void insertLast(List *list, int data) {
 void insertPos(List *list, int data, int Ndx) {
     
     if(Ndx > list->count || Ndx < 0) {
-        printf("Invalid.\n");
+        printf("Invalid Index.\n");
     }
 
     if(Ndx == 0) {
@@ -131,6 +140,88 @@ void insertPos(List *list, int data, int Ndx) {
     }
 }
 
+void deleteStart(List *list) {
+    
+    if(list->head == NULL) return;
+
+    Node* curr = list->head;
+    list->head = curr->next;
+    free(curr);
+
+    list->count--;
+}
+
+void deleteLast(List *list) {
+
+    if(list->head == NULL) return;
+
+    if(list->head->next == NULL) {
+        free(list->head);
+        list->head = NULL;
+    } else{
+        Node* curr = list->head;
+
+        while(curr->next->next != NULL) {
+            curr = curr->next;
+        }
+
+        free(curr->next);
+        curr->next = NULL;
+    }
+
+    list->count--;
+}
+
+void deletePos(List *list, int Ndx) {
+
+    if(Ndx > list->count || Ndx < 0) {
+        printf("Invalid Index.\n");
+    }
+
+    if(Ndx == 0) {
+        deleteStart(list);
+    } else{
+        Node *curr = list->head;
+        Node* temp = curr->next;
+        curr->next = temp->next;
+
+        free(temp);
+    }
+
+    list->count--;
+}
+
+int retrieve(List *list, int Ndx) {
+    
+    if(Ndx > list->count || Ndx < 0) {
+        printf("Invalid Index.\n");
+    }
+
+    Node* curr = list->head;
+    int i;
+
+    for(i = 0; i < Ndx; i++) {
+        curr = curr->next;
+    }
+
+    return curr->data;
+}
+
+int locate(List *list, int data) {
+    Node* curr = list->head;
+    int Ndx = 0;
+
+    while(curr != NULL) {
+        if(curr->data = data) {
+            return Ndx;
+        }
+        curr = curr->next;
+        Ndx++;
+    }
+
+    return -1;
+}
+
 void display(List *list) {
     Node *curr = list->head;
 
@@ -141,4 +232,5 @@ void display(List *list) {
     }
 
     printf("NULL\ncount: %d\n", list->count);
+    printf("\n");
 }
