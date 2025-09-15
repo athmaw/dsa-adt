@@ -90,7 +90,6 @@ int peek(Stack* s) {
 }
 
 int top(Stack* s) {
-
     return s->top;
 }
 
@@ -103,6 +102,7 @@ void display(Stack* s) {
 
     int i;
     printf("items: [ ");
+
     for(i = 0; i <= s->top; i++) {
         printf("%d", s->items[i]);
         if(i < s->top) printf(", ");
