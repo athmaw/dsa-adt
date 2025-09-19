@@ -18,10 +18,19 @@ bool isFull(Queue* q);
 bool isEmpty(Queue* q);
 void enqueue(Queue* q, int val);
 int dequeue(Queue* q);
-int front(Queue* q);
+int frontVal(Queue* q);
 void display(Queue* q);
 
 int main() {
+    Queue* q = initList();
+
+    enqueue(q, 5);
+    enqueue(q, 10);
+    enqueue(q, 15);
+    display(q);
+
+    printf("\nDequeued: %d\n", dequeue(q));
+    display(q);
     
     return 0;
 }
@@ -40,11 +49,11 @@ Queue* initList() {
     return q;
 }
 
-bool isFull(Queue* q) {
+bool isEmpty(Queue* q) {
     return q->front == (q->rear + 1) % MAX;
 }
 
-bool isEmpty(Queue* q) {
+bool isFull(Queue* q) {
     return q->front == (q->rear + 2) % MAX;
 }
 
@@ -55,17 +64,31 @@ void enqueue(Queue* q, int val) {
         return;
     }
 
-    if(isEmpty(q)) {
-
-    }
+    q->rear = (q->rear + 1) % MAX;
+    q->items[q->rear] = val;
 }
 
 int dequeue(Queue* q) {
 
+    if(isEmpty(q)) {
+        printf("Queue Empty. Can't dequeue.\n");
+        return -1;
+    }
+    
+    int val = q->items[q->front];
+    q->front = (q->front + 1) % MAX;
+
+    return val;
 }
 
-int front(Queue* q) {
+int frontVal(Queue* q) {
 
+    if(isEmpty(q)) {
+        printf("Queue Empty.\n");
+        return -1;
+    }
+
+    return q->items[q->front];
 }
 
 void display(Queue* q) {
@@ -76,12 +99,12 @@ void display(Queue* q) {
     }
 
     int i = q->front;
-    int x;
+    printf("items: [");
 
-    printf("items: [ ");
-    for(x = 0; x < q->items[MAX]; x++) {
-        printf("%d ", q->items[i]);
+    while(i != q->rear) {
+        printf("%d, ", q->items[i]);
         i = (i + 1) % MAX;
     }
+    printf("%d", q->items[q->rear]);
     printf("]");
 }
