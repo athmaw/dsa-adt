@@ -45,14 +45,26 @@ void initList(VHeap* V) {
 
 int allocSpace(VHeap* V) {
 
+    if(V->avail == -1) return -1;
+
+    int Ndx = V->avail;
+    V->avail = V->H[Ndx].next;
+
+    return Ndx;
 }
 
 void deallocSpace(VHeap* V, int Ndx) {
-
+    V->H[Ndx].next = V->avail;
+    V->avail = Ndx;
 }
 
 void insertFirst(int* L, VHeap* V, int elem) {
+    int newNdx = allocSpace(V);
+    if(newNdx == -1) return;
 
+    V->H[newNdx].elem = elem;
+    V->H[newNdx].next = *L;
+    *L = newNdx;
 }
 
 void insertLast(int* L, VHeap* V, int elem) {
